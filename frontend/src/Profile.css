@@ -1,0 +1,169 @@
+
+  .profile-buttons {
+    margin-bottom: 1rem;
+  }
+  
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+  }
+  
+  .listing-item {
+    background: #fff;
+    padding: 0.5rem;
+  }
+  
+  .listing-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .edit-button-wrapper {
+    text-align: right;
+    margin-top: -3rem;
+    margin-right: 2.5%;
+  }
+
+  .edit-button-wrapper button {
+    padding: 0.5rem 1rem;
+    background-color: #222;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+  }
+
+  .profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+
+  }
+
+  .listing-buttons {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    justify-content: flex-end;
+  }
+
+  .profile-username {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .bag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  .create-listing {
+    background-color: #fff;
+    color: #003780;
+    border: 2px solid #003780;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: auto;
+  }
+
+  .create-listing:hover{
+    background-color: #002a63;
+    color: #fff
+  }
+
+  .liked-listings {
+    background-color: #222;
+    color: #fff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #222;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: right;
+  }
+
+  .liked-listings:hover{
+    background-color: #fff;
+    color: #222
+  }
+
+  .bagged-listings {
+    background-color: #003780;
+    color: #fff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #003780;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: right;
+  }
+
+  .bagged-listings:hover{
+    background-color: #fff;
+    color: #003780
+  }
+
+  .sold-listings {
+    background-color: #fff;
+    color: #222;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #222;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+  }
+
+  .sold-listings:hover{
+    background-color: #222;
+    color: #fff
+  }
+  
+  .profile-buttons button:hover {
+    background-color: #002a63;
+  }
+
+  .account{
+    margin-left: auto;
+    height: 30px;
+    width: auto;
+    cursor: pointer;
+  }

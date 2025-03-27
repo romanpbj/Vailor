@@ -1,0 +1,28 @@
+.edit-details-images {
+    display: flex;
+    flex-direction: row;
+    max-width: 40%;
+    justify-content: center;
+    gap: 1rem;
+  }
+  
+  .edit-details-images ul {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .edit-details-images ul li {
+    flex: 1 1 0;
+    margin: 0;
+    padding: 0.25rem;
+  }
+  
+  .edit-details-images img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }

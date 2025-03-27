@@ -1,0 +1,70 @@
+
+.navbar-container {
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+  }
+  
+
+  .navbar {
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+  }
+  
+
+  .navbar-logo-link {
+    text-decoration: none;
+    margin-right: auto;
+  }
+  
+  .navbar-logo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+  }
+  
+  .navbar-links {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .navbar-links button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+    padding: 0.3rem 2rem;
+    color: #fff;
+    height: 35px;
+    min-height: 30px;
+  }
+  
+  .profile-btn {
+    background-color: #003780;
+  }
+  
+  .logout-btn {
+    background-color: #222;
+  }
+  
+  .signup-btn {
+    background-color: #003780;
+  }
+  
+  .login-btn {
+    background-color: #222;
+  }
+  
+  .bag-logo {
+    height: 37px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .navbar-links button:hover {
+    background-color: #444;
+  }

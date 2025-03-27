@@ -1,0 +1,76 @@
+
+
+  .profile-buttons {
+    margin-bottom: 1rem;
+  }
+  
+  .listings-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+  }
+  
+  .listing-item {
+    background: #fff;
+    padding: 0.5rem;
+  }
+  
+  .listing-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .bag-edit-button-wrapper {
+    text-align: right;
+    margin-top: -3rem;
+    margin-right: 2.5%;
+  }
+  
+  .bag-edit-button-wrapper button {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+
+  .profile-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+  .profile-header {
+    display: flex;
+    align-items: center; 
+    gap: 1rem; 
+    margin-bottom: 1rem;
+  }
+
+
+  .profile-username {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
+  .bag-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .bag-purchase {
+    background-color: #fff;
+    margin-right: 1%;
+    color: #222;
+    border: 1px solid #222;
+  }
+
+  .bag-remove {
+    background-color: #222;
+    border: 1px solid #222;
+    color: #fff;
+  }
