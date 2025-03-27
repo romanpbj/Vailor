@@ -3,10 +3,11 @@ import axios from 'axios';
 
 function BagItemButton({ listingID }) {
   const [bagged, setBagged] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/api/bag/in", { params: { listing_id: listingID } })
+      .get(`${API_URL}/api/bag/in`, { params: { listing_id: listingID } })
       .then(response => {
 
         setBagged(response.data.message);
@@ -18,7 +19,7 @@ function BagItemButton({ listingID }) {
 
   function handleBag() {
     axios
-      .post("http://127.0.0.1:5000/api/bag", { listing_id: listingID })
+      .post(`${API_URL}/api/bag`, { listing_id: listingID })
       .then(response => {
         setBagged(true);
       })
@@ -29,7 +30,7 @@ function BagItemButton({ listingID }) {
 
   function handleDelete() {
     axios
-      .delete("http://127.0.0.1:5000/api/bag", { params: { listing_id: listingID } })
+      .delete(`${API_URL}/api/bag`, { params: { listing_id: listingID } })
       .then(response => {
         setBagged(false);
       })

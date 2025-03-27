@@ -8,6 +8,7 @@ function Purchase() {
 
   const { listing_id } = useParams();
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const [userId, setUserId] = useState("");
   const [total, setTotal] = useState(0);
@@ -34,7 +35,7 @@ function Purchase() {
 
   useEffect(() => {
     axios
-      .get(`http://127.0.0.1:5000/api/listing/${listing_id}`)
+      .get(`${API_URL}/api/listing/${listing_id}`)
       .then((response) => {
         const data = response.data;
         setUserId(data.user_id);
@@ -50,7 +51,7 @@ function Purchase() {
         setInitialTotal(data.price)
 
         axios
-          .get("http://127.0.0.1:5000/api/user/details", {
+          .get(`${API_URL}/api/user/details`, {
             params: { user_id: data.user_id },
           })
           .then((resp) => {
@@ -60,7 +61,7 @@ function Purchase() {
           });
 
         axios
-          .get("http://127.0.0.1:5000/api/user/address", {
+          .get(`${API_URL}/api/user/address`, {
             params: { user_id: data.user_id },
           })
           .then((resp) => {
@@ -69,7 +70,7 @@ function Purchase() {
           });
 
         axios
-          .get("http://127.0.0.1:5000/api/images/profileImage", {
+          .get(`${API_URL}/api/images/profileImage`, {
             params: { profile_image_id: data.user_id },
           })
           .then((response) => {
@@ -89,7 +90,7 @@ function Purchase() {
 
   useEffect(() => {
     axios
-      .get("http://127.0.0.1:5000/api/listing/images", {
+      .get(`${API_URL}/api/listing/images`, {
         params: { listing_id: listing_id },
       })
       .then((response) => {
@@ -102,7 +103,7 @@ function Purchase() {
 
   useEffect(() => {
     axios
-      .post("http://127.0.0.1:5000/api/shipping", null, {
+      .post(`${API_URL}/api/shipping`, null, {
         params: { listing_id: listing_id },
       })
       .then((response) => {

@@ -18,11 +18,10 @@ function AccountSettings(){
     const[country, setCountry] = useState("US")
     const[message2, setMessage2] = useState("")
     const[phone, setPhone] = useState("")
-
-    
+    const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/api/user")
+        axios.get(`${API_URL}/api/user`)
           .then(response => {
             const data = response.data
             setUsername(data.username);
@@ -34,7 +33,7 @@ function AccountSettings(){
         e.preventDefault()
         const updatedData = {"newName" : username}
 
-        axios.put("http://127.0.0.1:5000/api/user", updatedData)
+        axios.put(`${API_URL}/api/user`, updatedData)
         .then(response => {
             setUsername(response.data.username)
             setMessage(`Changed name to ${username}`)
@@ -52,7 +51,7 @@ function AccountSettings(){
         formData.append("image", files[0])
         formData.append("user_id", user.id)
 
-        axios.post("http://127.0.0.1:5000/api/upload", formData, {
+        axios.post(`${API_URL}/api/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" }
           });
     }
@@ -64,7 +63,7 @@ function AccountSettings(){
             name, street1, street2, city, state, zip, country, phone
         }
 
-        axios.put("http://127.0.0.1:5000/api/user/address", AddressData)
+        axios.put(`${API_URL}/api/user/address`, AddressData)
         .then(response => {
             setMessage2("Address created")
         })

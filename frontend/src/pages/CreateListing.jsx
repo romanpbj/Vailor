@@ -16,6 +16,7 @@ const sizes = ["X-Large", "Large", "Medium", "Small", "X-Small"]
 function CreateListing({ onListingCreated }) {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const [title, setTitle] = useState('');
   const [price, setPrice] = useState('');
@@ -57,7 +58,7 @@ function CreateListing({ onListingCreated }) {
     };
 
     try {
-      const listingResponse = await axios.post("http://127.0.0.1:5000/api/listing", listingData);
+      const listingResponse = await axios.post(`${API_URL}/api/listing`, listingData);
       const newListing = listingResponse.data;
       if (files.length > 0 && files.length <= 5) {
         for (let i = 0; i < files.length; i++) {
@@ -65,7 +66,7 @@ function CreateListing({ onListingCreated }) {
           formData.append("image", files[i]);
           formData.append("listing_id", newListing.id);
 
-          await axios.post("http://127.0.0.1:5000/api/upload", formData, {
+          await axios.post(`${API_URL}/api/upload`, formData, {
             headers: { "Content-Type": "multipart/form-data" }
           });
         }

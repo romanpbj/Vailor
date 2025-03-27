@@ -7,6 +7,7 @@ import "../Login.css"
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const navigate = useNavigate();
   const { loginUser } = useContext(AuthContext)
@@ -15,7 +16,7 @@ function Login() {
     e.preventDefault();
     const loginUserData = { username, password };
     axios
-      .post("http://127.0.0.1:5000/api/login", loginUserData)
+      .post(`${API_URL}/api/login`, loginUserData)
       .then((response) => {
         loginUser(response.data)
         console.log("Login successful. Axios defaults:", axios.defaults.headers.common);

@@ -8,7 +8,7 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
   const navigate = useNavigate();
   const { loginUser } = useContext(AuthContext)
 
@@ -16,7 +16,7 @@ function SignUp() {
     e.preventDefault();
     const newUser = { username, email, password };
     axios
-      .post("http://127.0.0.1:5000/api/signup", newUser)
+      .post(`${API_URL}/api/signup`, newUser)
       .then((response) => {
         loginUser(response.data);
         navigate("/profile");

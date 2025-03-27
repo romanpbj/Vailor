@@ -14,6 +14,7 @@ function Home() {
   const initialCatDetails = queryParams.get('catDetails') || "";
   const initialSize = queryParams.get('size') || "";
   const initialPrice = queryParams.get('price') || "";
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const categories = {
     tops: ["T-Shirt", "Longsleeve", "Sweatshirt", "Sweater", "Tanktop", "Vest", "Jacket"],
@@ -36,7 +37,7 @@ function Home() {
     const combinedSearch = [search, category, categoryDetails, size]
       .filter(Boolean)
       .join(" ");
-    axios.get("http://127.0.0.1:5000/api/listing", { params: { search: combinedSearch, price: price } })
+    axios.get(`${API_URL}/api/listing`, { params: { search: combinedSearch, price: price } })
       .then(response => {
         setFoundListings(response.data);
       })
@@ -49,7 +50,7 @@ function Home() {
     if (initialSearch || initialCategory || initialCatDetails || initialSize || initialPrice) {
       performSearch();
     } else {
-      axios.get("http://127.0.0.1:5000/api/listing")
+      axios.get(`${API_URL}/api/listing`)
         .then(response => {
           setFoundListings(response.data);
         })

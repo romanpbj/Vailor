@@ -11,9 +11,10 @@ function Bag() {
   const [message, setMessage] = useState("")
   const { user } = useContext(AuthContext);
   const navigate = useNavigate()
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/bag")
+    axios.get(`${API_URL}/api/bag`)
       .then(response => {
         setBagItems(response.data);
       })
@@ -21,7 +22,7 @@ function Bag() {
   }, [total]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/user")
+    axios.get(`${API_URL}/api/user`)
       .then(response => {
         setTotal(response.data.total_bag_price);
       })
@@ -29,7 +30,7 @@ function Bag() {
   }, [user]);
 
   function handleDelete(listing){
-    axios.delete("http://127.0.0.1:5000/api/bag", { params: { listing_id: listing }})
+    axios.delete(`${API_URL}/api/bag`, { params: { listing_id: listing }})
     .then(response => {
         setMessage("Removed from Bag")
         setTotal(response.data.total_bag_price)

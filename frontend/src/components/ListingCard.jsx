@@ -8,11 +8,12 @@ function ListingCard({ listingId }) {
   const [price, setPrice] = useState("");
   const [image, setImage] = useState("");
   const [size, setSize] = useState("");
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:5000/api/listing/${listingId}`)
+    axios.get(`${API_URL}/api/listing/${listingId}`)
       .then(response => {
         const data = response.data;
         setTitle(data.title);
@@ -25,7 +26,7 @@ function ListingCard({ listingId }) {
   }, [listingId]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/listing/images", { params: { listing_id: listingId }})
+    axios.get(`${API_URL}/api/listing/images`, { params: { listing_id: listingId }})
       .then(response => {
         const data = response.data;
 

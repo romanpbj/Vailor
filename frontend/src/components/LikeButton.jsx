@@ -6,23 +6,24 @@ function LikeButton({ listingID, className }) {
   const { user } = useContext(AuthContext);
   const [likes, setLikes] = useState(0);
   const [liked, setLiked] = useState(false);
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:5000/api/listing/${listingID}`)
+    axios.get(`${API_URL}/api/listing/${listingID}`)
         .then(response => {
             setLikes(response.data.likes)
         })
   }, [user.id, listingID])
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/like", { params: { user_id: user.id, listing_id: listingID }})
+    axios.get(`${API_URL}/api/like`, { params: { user_id: user.id, listing_id: listingID }})
         .then(response => {
             setLiked(response.data.message)
         })
   }, [user.id, listingID])
 
   function handleLike(){
-    axios.post("http://127.0.0.1:5000/api/like", { listing_id: listingID })
+    axios.post(`${API_URL}/api/like`, { listing_id: listingID })
       .then(response => {
         setLikes(response.data.likes)
         setLiked(true)
@@ -33,7 +34,7 @@ function LikeButton({ listingID, className }) {
   }
 
   function handleUnlike(){
-    axios.delete("http://127.0.0.1:5000/api/like", { params: { listing_id: listingID }})
+    axios.delete(`${API_URL}/api/like`, { params: { listing_id: listingID }})
     .then(response => {
         setLikes(response.data.likes)
         setLiked(false)

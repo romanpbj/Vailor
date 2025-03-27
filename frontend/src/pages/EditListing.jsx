@@ -14,9 +14,10 @@ function EditListing() {
   const [categoryDetails, setCategoryDetails] = useState('');
   const [images, setImages] = useState([])
   const [files, setFiles] = useState([])
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
   
   useEffect(() => {
-    axios.get(`http://127.0.0.1:5000/api/listing/${listingId}`)
+    axios.get(`${API_URL}/api/listing/${listingId}`)
       .then(response => {
         const data = response.data;
         setTitle(data.title);
@@ -29,7 +30,7 @@ function EditListing() {
   }, [listingId]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/listing/images", {params : {listing_id : listingId}})
+    axios.get(`${API_URL}/api/listing/images`, {params : {listing_id : listingId}})
     .then(response => {
       setImages(response.data)
     })
@@ -41,7 +42,7 @@ function EditListing() {
 
   function handleImages(){
 
-    axios.delete("http://127.0.0.1:5000/api/listing/deleteImage", { params: { listing_id: listingId }})
+    axios.delete(`${API_URL}/api/listing/deleteImage`, { params: { listing_id: listingId }})
     .then(response => {
       if (files.length > 0 && files.length <= 5) {
         for (let i = 0; i < files.length; i++) {
@@ -49,7 +50,7 @@ function EditListing() {
           formData.append("image", files[i]);
           formData.append("listing_id", listingId);
   
-          axios.put("http://127.0.0.1:5000/api/listing/editImages", formData, { headers: { "Content-Type": "multipart/form-data" }})
+          axios.put(`${API_URL}/api/listing/editImages`, formData, { headers: { "Content-Type": "multipart/form-data" }})
         }
       }
     })
@@ -65,7 +66,7 @@ function EditListing() {
       category_details: categoryDetails
     };
 
-    axios.put(`http://127.0.0.1:5000/api/listing/${listingId}`, updatedData, {
+    axios.put(`${API_URL}/api/listing/${listingId}`, updatedData, {
       headers: { "Content-Type": "application/json" }
     })
     .then(response => {
@@ -78,7 +79,7 @@ function EditListing() {
 
   function handleDelete(){
     
-    axios.delete(`http://127.0.0.1:5000/api/listing/${listingId}`)
+    axios.delete(`${API_URL}/api/listing/${listingId}`)
     .then(response => {
         navigate('/profile');
     })
@@ -90,7 +91,7 @@ function EditListing() {
 
   function handleSold() {
 
-    axios.post("http://127.0.0.1:5000/api/sold" , null, { params: { listing_id: listingId }})
+    axios.post(`${API_URL}/api/sold` , null, { params: { listing_id: listingId }})
     .then(response => {
         navigate('/profile')
     })

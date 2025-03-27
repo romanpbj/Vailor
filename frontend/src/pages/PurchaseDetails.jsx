@@ -10,6 +10,7 @@ function PurchaseDetails() {
   const { listingId } = useParams(); 
   const navigate = useNavigate(); 
   const { user } = useContext(AuthContext);
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   const [userId, setUserId] = useState("");
   const [title, setTitle] = useState('');
@@ -27,7 +28,7 @@ function PurchaseDetails() {
   const [sold, setSold] = useState();
 
   useEffect(() => {
-    axios.get(`http://127.0.0.1:5000/api/listing/${listingId}`)
+    axios.get(`${API_URL}/api/listing/${listingId}`)
       .then(response => {
         const data = response.data;
         setUserId(data.user_id);
@@ -41,12 +42,12 @@ function PurchaseDetails() {
         setLoading(false);
         setSold(data.sold);
 
-        axios.get("http://127.0.0.1:5000/api/user/details", { params: { user_id: data.user_id } })
+        axios.get(`${API_URL}/api/user/details`, { params: { user_id: data.user_id } })
           .then(resp => {
             setProfile(resp.data.username);
           });
 
-        axios.get("http://127.0.0.1:5000/api/images/profileImage", { params: { profile_image_id: data.user_id }})
+        axios.get(`${API_URL}/api/images/profileImage`, { params: { profile_image_id: data.user_id }})
           .then(response => {
             setProfileImage(response.data[0].image_url);
           })
@@ -59,7 +60,7 @@ function PurchaseDetails() {
   }, [listingId]);
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/listing/images", { params: { listing_id: listingId } })
+    axios.get(`${API_URL}/api/listing/images`, { params: { listing_id: listingId } })
       .then(response => {
         setImages(response.data);
       })

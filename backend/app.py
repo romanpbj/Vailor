@@ -575,9 +575,7 @@ def upload_image():
     lower = upper + min_dim
     cropped_img = img.crop((left, upper, right, lower))
 
-
     buffer = io.BytesIO()
-
     cropped_img.save(buffer, format=img.format)
     buffer.seek(0)
     
@@ -585,7 +583,6 @@ def upload_image():
     bucket = os.getenv("AWS_BUCKET_NAME")
 
     try:
-        
         s3_client.upload_fileobj(
             buffer,
             bucket,
@@ -597,25 +594,19 @@ def upload_image():
 
         file_url = f"https://{bucket}.s3.{AWS_REGION}.amazonaws.com/{filename}"
         
-
         listing_id = request.form.get("listing_id")
         current_user_id = get_jwt_identity()
-        profile_image_id = get_jwt_identity()
 
-        if profile_image_id and profile_image_id.strip():
-            profile_image_id = int(profile_image_id)
-        else:
-            profile_image_id = None
-
-        if  listing_id and listing_id.strip():
+        if listing_id is not None and str(listing_id).strip() != "":
             listing_id = int(listing_id)
+            profile_image_id = None
         else:
             listing_id = None
+            profile_image_id = int(current_user_id)
         
         if not current_user_id:
             return jsonify({"message": "Missing user_id"}), 400
         
-  
         new_image = Image(
             user_id=int(current_user_id),
             listing_id=listing_id,

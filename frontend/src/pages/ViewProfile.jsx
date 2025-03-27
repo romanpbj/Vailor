@@ -10,9 +10,10 @@ function ViewProfile() {
   const [listings, setListings] = useState([]);
   const [profileImage, setProfileImage] = useState("")
   const navigate = useNavigate();
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/user/details", { params: { user_id: userId } })
+    axios.get(`${API_URL}/api/user/details`, { params: { user_id: userId } })
       .then(response => {
         const data = response.data
         setUsername(data.username);
@@ -21,7 +22,7 @@ function ViewProfile() {
 }, [userId]);
 
 useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/images/profileImage", { params: { profile_image_id: userId }})
+    axios.get(`${API_URL}/api/images/profileImage`, { params: { profile_image_id: userId }})
       .then(response => {
         setProfileImage(response.data[0].image_url);
       })
@@ -30,7 +31,7 @@ useEffect(() => {
 
 
   useEffect(() => {
-      axios.get("http://127.0.0.1:5000/api/listing", { params: { user_id: userId } })
+      axios.get(`${API_URL}/api/listing`, { params: { user_id: userId } })
         .then(response => {
           setListings(response.data);
         })

@@ -13,6 +13,8 @@ function Profile() {
   const [profileImage, setProfileImage] = useState("");
   const navigate = useNavigate();
 
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
+
   useEffect(() => {
     axios.get("http://127.0.0.1:5000/api/user")
       .then(response => {
@@ -24,7 +26,7 @@ function Profile() {
 
   useEffect(() => {
     if (user && user.id) {
-      axios.get("http://127.0.0.1:5000/api/listing", { params: { user_id: user.id } })
+      axios.get(`${API_URL}/api/listing`, { params: { user_id: user.id } })
         .then(response => {
           setListings(response.data);
         })

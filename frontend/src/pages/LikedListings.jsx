@@ -8,9 +8,10 @@ function LikedListings() {
   const { user } = useContext(AuthContext);
   const [listings, setListings] = useState([]);
   const user_id = user.id
+  const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
   useEffect(() => {
-    axios.get("http://127.0.0.1:5000/api/like/all", { params: { user_id: user_id }})
+    axios.get(`${API_URL}/api/like/all`, { params: { user_id: user_id }})
     .then(response => {
         setListings(response.data)
     })
@@ -20,10 +21,10 @@ function LikedListings() {
   }, [user_id])
 
   function handleDelete(listingID){
-    axios.delete("http://127.0.0.1:5000/api/like", { params: { user_id: user.id, listing_id: listingID }})
+    axios.delete(`${API_URL}/api/like`, { params: { user_id: user.id, listing_id: listingID }})
     .then(response => {
         
-        axios.get("http://127.0.0.1:5000/api/like/all", { params: { user_id: user_id }})
+        axios.get(`${API_URL}/api/like/all`, { params: { user_id: user_id }})
         .then(response => {
         setListings(response.data)
     })

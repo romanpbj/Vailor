@@ -6,9 +6,10 @@ import '../Profile.css'
 function SoldListings(){
 
     const [listings, setListings] = useState([])
+    const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
 
     useEffect(() =>{
-        axios.get("http://127.0.0.1:5000/api/sold")
+        axios.get(`${API_URL}/api/sold`)
         .then(response => {
             setListings(response.data)
         })
