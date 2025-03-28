@@ -56,8 +56,9 @@ function AccountSettings(){
           });
     }
 
-    function handleAddress() {
+    function handleAddress(e) {
 
+        e.preventDefault();
         setCountry("US")
         const AddressData = {
             name, street1, street2, city, state, zip, country, phone
