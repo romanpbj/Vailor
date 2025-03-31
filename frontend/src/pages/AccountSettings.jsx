@@ -29,6 +29,20 @@ function AccountSettings(){
           .catch(err => console.error("Error fetching username:", err));
     }, [user.id]);
 
+    useEffect(() => {
+        axios.get(`${API_URL}/api/user/address`, {params : { user_id : user.id}})
+        .then(response => {
+            const data = response.data
+            setName(data.name)
+            setStreet1(data.street1)
+            setStreet2(data.street2)
+            setCity(data.city)
+            setZip(data.zip)
+            setState(data.state)
+            setPhone(data.phone)
+        })
+    }, [])
+
     function handleChange(e){
         e.preventDefault()
         const updatedData = {"newName" : username}
@@ -101,25 +115,25 @@ function AccountSettings(){
                 <form onSubmit={handleAddress}>
                     <label>Set Address:</label><br></br>
                     <label>Name:</label>
-                    <input type='text' value={name} onChange={(e) => setName(e.target.value)}></input>
+                    <input type='text' value={name} onChange={(e) => setName(e.target.value)} required></input>
                     <br></br>
                     <label>Street 1:</label>
-                    <input type='text' value={street1} onChange={(e) => setStreet1(e.target.value)}></input>
+                    <input type='text' value={street1} onChange={(e) => setStreet1(e.target.value)} required></input>
                     <br></br>
                     <label>Street 2:</label>
-                    <input type='text' value={street2} onChange={(e) => setStreet2(e.target.value)}></input>
+                    <input type='text' value={street2} onChange={(e) => setStreet2(e.target.value)} required></input>
                     <br></br>
                     <label>City:</label>
-                    <input type='text' value={city} onChange={(e) => setCity(e.target.value)}></input>
+                    <input type='text' value={city} onChange={(e) => setCity(e.target.value)} required></input>
                     <br></br>
                     <label>State:</label>
-                    <input type='text' value={state} onChange={(e) => setState(e.target.value)}></input>
+                    <input type='text' value={state} onChange={(e) => setState(e.target.value)} required></input>
                     <br></br>
                     <label>Zip Code:</label>
-                    <input type='text' value={zip} onChange={(e) => setZip(e.target.value)}></input>
+                    <input type='text' value={zip} onChange={(e) => setZip(e.target.value)} required></input>
                     <br></br>
                     <label>Phone Number:</label>
-                    <input type='text' value={phone} onChange={(e) => setPhone(e.target.value)}></input>
+                    <input type='text' value={phone} onChange={(e) => setPhone(e.target.value)} required></input>
                     
                     <button type='submit'>Update Address</button>
                 </form>

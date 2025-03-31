@@ -107,6 +107,7 @@ class User(db.Model):
     zip = db.Column(db.String(20), nullable = True)
     country = db.Column(db.String(50), nullable = True)
     phone = db.Column(db.String(30), nullable = True)
+    validAddress = db.Column(db.Boolean, default = False)
 
 
     def to_dict(self):
@@ -127,8 +128,10 @@ class User(db.Model):
             "zip": self.zip,
             "country": self.country,
             "phone": self.phone,
-            "email": self.email
+            "email": self.email,
+            "validAddress": self.validAddress
         }
+
     
 class Like(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -376,6 +379,7 @@ def update_address():
     user.zip = data.get("zip")
     user.country = data.get("country")
     user.phone = data.get("phone")
+    user.validAddress = True
 
     db.session.commit()
     return jsonify({"message": "address updated"}), 200
@@ -559,6 +563,7 @@ def upload_image():
     file = request.files["image"]
 
     if file.filename == "":
+        traceback.print_exc()
         return jsonify({"message": "No selected file"}), 400
 
     try:

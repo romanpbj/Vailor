@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
@@ -13,7 +13,7 @@ const categories = {
 
 const sizes = ["X-Large", "Large", "Medium", "Small", "X-Small"]
 
-function CreateListing({ onListingCreated }) {
+function CreateListing() {
   const navigate = useNavigate();
   const { user } = useContext(AuthContext);
   const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
@@ -30,11 +30,18 @@ function CreateListing({ onListingCreated }) {
   const[width, setWidth] = useState("")
   const[height, setHeight] = useState("")
   const[weight, setWeight] = useState("")
+  const [address, setAddress] = useState()
 
-  // Handle file input changes
   const handleFileChange = (e) => {
     setFiles(e.target.files);
   };
+
+  useEffect(() => {
+    axios.get(`${API_URL}/api/user/address`, {params : { user_id : user.id}})
+    .then(response => {
+      setAddress(response.data.validAddress)
+    })
+  },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -175,7 +182,7 @@ function CreateListing({ onListingCreated }) {
             <label>Weight:</label>
             <input type='text' value = {weight} onChange={(e) => setWeight(e.target.value)} required ></input> <label>lb</label><br></br>
         </div>
-        <button type="submit">Create Listing</button>
+        {address? <button type="submit">Create Listing</button> : <p>A valid shipping address must be set before creating listings.</p>}
       </form>
       <button onClick={() => navigate('/profile')}>Cancel</button>
       {message && <p>{message}</p>}
