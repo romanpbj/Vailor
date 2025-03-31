@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../AuthContext';
+import "../CreateListing.css"
 
 const categories = {
     tops: ["T-Shirt", "Longsleeve", "Sweatshirt", "Sweater", "Tanktop", "Vest", "Jacket"],
@@ -87,82 +88,9 @@ function CreateListing() {
   };
 
   return (
-    <div>
-      <h2>New Listing Form:</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Title:</label>
-          <input 
-            type="text" 
-            value={title} 
-            placeholder="Enter title" 
-            onChange={e => setTitle(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Price:</label>
-          <input 
-            type="number" 
-            step="0.01" 
-            value={price} 
-            placeholder="Enter price" 
-            onChange={e => setPrice(e.target.value)} 
-            required 
-          />
-        </div>
-        <div>
-          <label>Description:</label>
-          <textarea 
-            value={description} 
-            onChange={e => setDescription(e.target.value)}
-          ></textarea>
-        </div>
-        <div>
-          <label>Category:</label>
-          <select 
-            value={category} 
-            onChange={e => { 
-              setCategory(e.target.value); 
-              setCategoryDetails(""); // reset subcategory when main changes
-            }}
-            required
-          >
-            <option value="">Select Category</option>
-            {Object.keys(categories).map(cat => (
-                <option key={cat} value={cat}>
-                    {cat.charAt(0).toUpperCase() + cat.slice(1)}
-                </option>
-            ))}
-          </select>
-        </div>
-        {category && (
-          <div>
-            <label>Subcategory:</label>
-            <select 
-              value={categoryDetails} 
-              onChange={e => setCategoryDetails(e.target.value)}
-              required
-            >
-              <option value="">Select Subcategory</option>
-              {categories[category].map(sub => (
-                <option key={sub} value={sub}>{sub}</option>
-              ))}
-            </select>
-          </div>
-        )}
-        <div>
-        <label>Size:</label>
-        <select
-        value={size}
-        onChange={e => setSize(e.target.value)} required>
-            <option value="">Select Subcategory</option>
-            {sizes.map(size => (
-                <option key={size} value={size}>{size}</option>
-              ))}
-        </select>
-      </div>
-        <div>
+    <div className="epurchase-details-container">
+      <div className="epurchase-details-images create-images-placeholder">
+        <div className="eimage-upload-box">
           <label>Upload Images:</label>
           <input 
             type="file" 
@@ -170,24 +98,155 @@ function CreateListing() {
             onChange={handleFileChange}
           />
         </div>
-        <br></br>
-        <div>
-            <label>Set shipping dimensions:</label><br></br>
-            <label>Length:</label>
-            <input type='text' value = {length} onChange={(e) => setLength(e.target.value)} required ></input> <label>in</label><br></br>
-            <label>Width:</label>
-            <input type='text' value = {width} onChange={(e) => setWidth(e.target.value)} required ></input> <label>in</label><br></br>
-            <label>Height:</label>
-            <input type='text' value = {height} onChange={(e) => setHeight(e.target.value)} required ></input> <label>in</label><br></br>
-            <label>Weight:</label>
-            <input type='text' value = {weight} onChange={(e) => setWeight(e.target.value)} required ></input> <label>lb</label><br></br>
-        </div>
-        {address? <button type="submit">Create Listing</button> : <p>A valid shipping address must be set before creating listings.</p>}
-      </form>
-      <button onClick={() => navigate('/profile')}>Cancel</button>
-      {message && <p>{message}</p>}
+      </div>
+
+      <div className="epurchase-details-info create-listing-info">
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label className="epurchase-details-title">Title:</label>
+            <input 
+              type="text" 
+              value={title} 
+              placeholder="Enter title" 
+              onChange={e => setTitle(e.target.value)} 
+              required 
+            />
+          </div>
+          <div>
+            <label className="epurchase-details-price">Price:</label>
+            <input 
+              type="number" 
+              step="0.01" 
+              value={price} 
+              placeholder="Enter price" 
+              onChange={e => setPrice(e.target.value)} 
+              required 
+            />
+          </div>
+
+          <div className="edescription-block">
+            <label className="epurchase-details-description">Description:</label>
+            <textarea 
+              value={description} 
+              placeholder="Enter description"
+              onChange={e => setDescription(e.target.value)}
+              required
+            ></textarea>
+          </div>
+
+          <div className="epurchase-details-metadata">
+            <label>Category:</label>
+            <select 
+              value={category} 
+              onChange={e => { 
+                setCategory(e.target.value); 
+                setCategoryDetails('');
+              }}
+              required
+            >
+              <option value="">Select Category</option>
+              {Object.keys(categories).map(cat => (
+                <option key={cat} value={cat}>
+                  {cat.charAt(0).toUpperCase() + cat.slice(1)}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {category && (
+            <div className="epurchase-details-metadata">
+              <label>Subcategory:</label>
+              <select 
+                value={categoryDetails} 
+                onChange={e => setCategoryDetails(e.target.value)}
+                required
+              >
+                <option value="">Select Subcategory</option>
+                {categories[category].map(sub => (
+                  <option key={sub} value={sub}>{sub}</option>
+                ))}
+              </select>
+            </div>
+          )}
+
+          <div className="epurchase-details-metadata">
+            <label>Size:</label>
+            <select
+              value={size}
+              onChange={e => setSize(e.target.value)}
+              required
+            >
+              <option value="">Select Size</option>
+              {sizes.map(sz => (
+                <option key={sz} value={sz}>{sz}</option>
+              ))}
+            </select>
+          </div>
+
+          <div className="eshipping-dimensions">
+            <p>Set shipping dimensions:</p>
+
+            <div className="edimension-field">
+              <label>Length:</label>
+              <input 
+                type="text" 
+                value={length} 
+                onChange={e => setLength(e.target.value)} 
+                required 
+              /> 
+              <span>in</span>
+            </div>
+
+            <div className="edimension-field">
+              <label>Width:</label>
+              <input 
+                type="text" 
+                value={width} 
+                onChange={e => setWidth(e.target.value)} 
+                required 
+              /> 
+              <span>in</span>
+            </div>
+
+            <div className="edimension-field">
+              <label>Height:</label>
+              <input 
+                type="text" 
+                value={height} 
+                onChange={e => setHeight(e.target.value)} 
+                required 
+              /> 
+              <span>in</span>
+            </div>
+
+            <div className="edimension-field">
+              <label>Weight:</label>
+              <input 
+                type="text" 
+                value={weight} 
+                onChange={e => setWeight(e.target.value)} 
+                required 
+              /> 
+              <span>lb</span>
+            </div>
+          </div>
+
+          {address ? (
+            <button type="submit">Create Listing</button>
+          ) : (
+            <p>A valid shipping address must be set before creating listings.</p>
+          )}
+        </form>
+
+        <button className="ecancel-button" onClick={() => navigate('/profile')}>
+          Cancel
+        </button>
+
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 }
 
 export default CreateListing;
+

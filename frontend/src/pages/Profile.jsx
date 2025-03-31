@@ -67,6 +67,7 @@ function Profile() {
             <button className='liked-listings' onClick={() => navigate("/liked")}>Liked</button>
             <button className='bagged-listings' onClick={() => navigate("/bag")}>Bag</button>
             <button className='sold-listings' onClick={() => navigate("/sold")}>Sold</button>
+            <button className='bought-listings' onClick={() => navigate("/bought")}>Purchased</button>
         </div>
         {listings.length === 0 ? (
           <p>No listings found.</p>

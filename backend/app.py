@@ -66,6 +66,8 @@ class Listing(db.Model):
     weight = db.Column(db.String(10), nullable = False)
     sold = db.Column(db.Boolean, nullable = False, default = False)
     label = db.Column(db.String(500), nullable = True)
+    purchasedUser = db.Column(db.Integer, nullable = True)
+    tracking_number = db.Column(db.String(200), nullable = True)
 
     def to_dict(self):
         return {
@@ -80,7 +82,9 @@ class Listing(db.Model):
             "date": self.date.isoformat(),
             "size": self.size,
             "sold": self.sold,
-            "label": self.label
+            "label": self.label,
+            "purchasedUser": self.purchasedUser,
+            "tracking_number": self.tracking_number
         }
     
     def shipping_dict(self):
@@ -213,6 +217,8 @@ def add_label():
 @jwt_required()
 def mark_Sold():
     listing_id = request.args.get("listing_id", type=int)
+    tracking_number = request.args.get("tracking_number")
+    purchaser = get_jwt_identity()
     if listing_id is None:
         return jsonify({"message": "Listing ID is required"}), 400
 
@@ -236,11 +242,22 @@ def mark_Sold():
 
         db.session.delete(item)
 
-
     listing.sold = True
+    listing.purchasedUser = purchaser
+    listing.tracking_number = tracking_number
     db.session.commit() 
 
     return jsonify({"message": "Listing marked as sold!"})
+
+@app.route("/api/bought", methods = ["GET"])
+@jwt_required()
+def get_bought():
+    user_id = get_jwt_identity()
+
+    listings = Listing.query.filter_by(purchasedUser = user_id)
+
+    listings_data = [item.to_dict() for item in listings]
+    return jsonify(listings_data)
 
 @app.route("/api/sold", methods = ["GET"])
 @jwt_required()
@@ -253,15 +270,6 @@ def get_sold():
     listings_data = [listing.to_dict() for listing in soldListings]
     return jsonify(listings_data)
 
-class SDKConfig:
-    def __init__(self, api_key):
-        self.api_key = api_key
-
-        self.security = {"ShippoToken": api_key}
-        self.globals = ("2018-02-08")
-        self.shippo_api_version = "2018-02-08" 
-
-sdk_config = SDKConfig(os.getenv("SHIPPO_KEY"))
 
 
 @app.route("/api/shippo/transaction", methods=["POST"])

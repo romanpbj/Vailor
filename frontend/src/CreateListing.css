@@ -1,0 +1,143 @@
+
+.epurchase-details-container {
+    display: flex;
+    align-items: flex-start;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 1rem;
+  }
+  
+
+  .epurchase-details-images.create-images-placeholder {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+
+  .eimage-upload-box {
+    width: 100%;
+    max-width: 600px;
+    height: 550px;
+    border: 2px dashed #ccc;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .eimage-upload-box label {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .eimage-upload-box input[type="file"] {
+    font-size: 1rem;
+  }
+  
+
+  .epurchase-details-info.create-listing-info {
+    flex: 1;
+    max-width: 50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+  }
+  
+
+  .eform-header {
+    font-size: 1.6rem;
+    margin: 0 0 1rem 0;
+    text-align: left;
+  }
+  
+
+  .epurchase-details-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+  }
+  .epurchase-details-price {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: 0.2rem;
+  }
+  
+
+  .epurchase-details-info input[type="text"],
+  .epurchase-details-info input[type="number"],
+  .epurchase-details-info select,
+  .epurchase-details-info textarea {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+    margin-bottom: 0.8rem;
+  }
+  
+
+  .edescription-block {
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem 0;
+    margin: 1rem 0;
+  }
+  .epurchase-details-description {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+
+  .epurchase-details-metadata {
+    margin-bottom: 1rem;
+  }
+  .epurchase-details-metadata label {
+    font-weight: bold;
+    margin-right: 0.5rem;
+  }
+
+  .eshipping-dimensions {
+    margin: 1rem 0;
+    padding: 1rem 0;
+    border-top: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+  }
+  .eshipping-dimensions p {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  .edimension-field {
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+  }
+  .edimension-field label {
+    font-weight: normal;
+  }
+
+  button[type="submit"],
+  .ecancel-button {
+    background-color: #222;
+    color: #fff;
+    padding: 0.8rem 1rem;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    border-radius: 4px;
+    margin-top: 1rem;
+    margin-right: 0.5rem;
+  }
+  
+  button[type="submit"]:hover,
+  .ecancel-button:hover {
+    background-color: #444;
+  }

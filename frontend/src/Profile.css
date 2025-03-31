@@ -152,6 +152,21 @@
     align-self: flex-end;
   }
 
+  .bought-listings {
+    background-color: #9c9a9a;
+    color: #fff;
+    border-width: 2px;
+    border-style: solid;
+    border-color: #9c9a9a;
+    padding: 0.5rem 2rem;
+    font-weight: bold;
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    align-self: flex-end;
+  }
+
   .sold-listings:hover{
     background-color: #222;
     color: #fff

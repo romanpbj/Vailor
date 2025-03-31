@@ -16,9 +16,7 @@ import Purchase from './pages/Purchase';
 import React, { useEffect } from "react";
 import SoldListings from './pages/soldListings';
 import Confirmation from './pages/confirmation';
-
-
-
+import Bought from './pages/Bought';
 
 function App() {
   useEffect(() => {
@@ -46,6 +44,7 @@ function App() {
           <Route path = "/bag" element = {<Bag/>} />
           <Route path = '/sold' element = {<SoldListings/>} />
           <Route path="/confirmation" element={<Confirmation />} />
+          <Route path = "/bought" element = {<Bought />} />
           <Route path = "/purchase/:listing_id" element = {<Purchase/>} />
           <Route path = "/createListing" element = {<CreateListing/>} />
           <Route path ="/edit/:listingId" element = {<EditListing />} />
