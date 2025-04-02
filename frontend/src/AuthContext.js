@@ -16,8 +16,13 @@ export const AuthProvider = ({ children }) => {
 
   const loginUser = (data) => {
     axios.defaults.headers.common['Authorization'] = `Bearer ${data.access_token}`;
-    setAuthData(data);
-    localStorage.setItem("authData", JSON.stringify(data));
+    const user = data.user || data;
+    if (!('is_admin' in user)) {
+      user.is_admin = false;
+    }
+    const authData = { access_token: data.access_token || '', user };
+    setAuthData(authData);
+    localStorage.setItem("authData", JSON.stringify(authData));
   };
 
   const logoutUser = () => {

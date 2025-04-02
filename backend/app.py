@@ -17,11 +17,11 @@ from PIL import Image as PilImage
 import io
 import requests
 import shippo
-
-
-
-
-
+import csv
+from io import StringIO
+from flask import Response
+import joblib
+import pandas as pd
 
 load_dotenv()
 app = Flask(__name__)
@@ -36,7 +36,10 @@ ACCESS_KEY = os.getenv("AWS_ACCESS_KEY")
 SECRET_KEY = os.getenv("AWS_SECRET_KEY")
 AWS_REGION = os.getenv("AWS_REGION")
 SHIPPO_API_TOKEN = os.getenv("SHIPPO_KEY")
+ADMIN_KEY = os.getenv("ADMIN_KEY")
 SHIPPO_API_URL = "https://api.goshippo.com/shipments/"
+
+price_model = joblib.load("price_recommendation_model.pkl")
 
 sdk_config = {"api_key": os.getenv("SHIPPO_KEY")}
 
@@ -112,6 +115,7 @@ class User(db.Model):
     country = db.Column(db.String(50), nullable = True)
     phone = db.Column(db.String(30), nullable = True)
     validAddress = db.Column(db.Boolean, default = False)
+    is_admin = db.Column(db.Boolean, default = False)
 
 
     def to_dict(self):
@@ -119,7 +123,8 @@ class User(db.Model):
             "id": self.id,
             "username": self.username,
             "email": self.email,
-            "total_bag_price": self.total_bag_price
+            "total_bag_price": self.total_bag_price,
+            "is_admin": self.is_admin
         }
     
     def to_address(self):
@@ -199,6 +204,25 @@ def unauthorized_callback(error):
 def expired_token_callback(jwt_header, jwt_payload):
     print("Expired token callback")
     return jsonify({"msg": "Token has expired"}), 401
+
+@app.route("/api/recommend_price", methods=["POST"])
+@jwt_required()
+def recommend_price():
+    data = request.get_json()
+
+    feature_df = pd.DataFrame([{
+        "title": data.get("title", ""),
+        "category": data.get("category", ""),
+        "category_details": data.get("category_details", ""),
+        "description": data.get("description", ""),
+        "size": data.get("size", "")
+    }])
+    
+    try:
+        recommended_price = price_model.predict(feature_df)[0]
+        return jsonify({"recommended_price": recommended_price}), 200
+    except Exception as e:
+        return jsonify({"message": "Error generating recommendation", "error": str(e)}), 500
 
 @app.route("/api/listing/label", methods = ["POST"])
 @jwt_required()
@@ -558,8 +582,36 @@ def edit_images():
         return jsonify({"message": "Error uploading image", "error": str(e)}), 500
 
 
+@app.route("/api/export", methods = ["GET"])
+@jwt_required()
+def export_sold_listings():
+    sold_listings = Listing.query.filter_by(sold = True).all()
 
+    si = StringIO()
+    writer = csv.writer(si)
 
+    writer.writerow([
+        'title', 'price', 'description', 'category', 'category_details', 'size'
+    ])
+
+    for listing in sold_listings:
+        writer.writerow([
+            listing.title,
+            listing.price,
+            listing.description,
+            listing.category,
+            listing.category_details,
+            listing.size
+        ])
+
+    output = si.getvalue()
+    si.close()
+
+    return Response(
+        output,
+        mimetype="text/csv",
+        headers={"Content-Disposition": "attachment;filename=sold_listings.csv"}
+    )
 
 @app.route("/api/upload", methods=["POST"])
 @jwt_required()
@@ -683,6 +735,7 @@ def signup():
     username = data.get("username")
     email = data.get("email")
     password = data.get("password")
+    adminKey = data.get("adminKey")
 
     if not username or not email or not password:
         return jsonify({"message": "Missing required fields"}), 400
@@ -692,11 +745,19 @@ def signup():
         return jsonify({"message": "User/email already exists"}), 400
     
     hashedPassword = generate_password_hash(password)
-    newUser = User(username=username, email=email, password_hash=hashedPassword, total_bag_price = 0)
+
+    if adminKey == ADMIN_KEY:
+        newUser = User(username=username, email=email, password_hash=hashedPassword, total_bag_price = 0, is_admin = True)
+    else:
+        newUser = User(username=username, email=email, password_hash=hashedPassword, total_bag_price = 0, is_admin = False)
     db.session.add(newUser)
     db.session.commit()
-    
-    return jsonify(newUser.to_dict()), 201
+
+    access_token = create_access_token(identity=str(newUser.id))
+    return jsonify({
+        "access_token": access_token,
+        "user": newUser.to_dict()
+    }), 201
 
 @app.route("/api/login", methods=["POST"])
 def login():

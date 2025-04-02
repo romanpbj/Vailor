@@ -8,13 +8,14 @@ function SignUp() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [adminKey, setAdminKey] = useState("")
   const API_URL = process.env.REACT_APP_API_URL || "http://127.0.0.1:5000";
   const navigate = useNavigate();
   const { loginUser } = useContext(AuthContext)
 
   function handleAccountCreate(e) {
     e.preventDefault();
-    const newUser = { username, email, password };
+    const newUser = { username, email, password, adminKey };
     axios
       .post(`${API_URL}/api/signup`, newUser)
       .then((response) => {
@@ -56,6 +57,14 @@ function SignUp() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+            />
+          </div>
+          <div>
+            <label>Admin Key: </label>
+            <input
+              type="password"
+              value={adminKey}
+              onChange={(e) => setAdminKey(e.target.value)}
             />
           </div>
           <button type="submit">Create Account</button>

@@ -38,7 +38,7 @@ function Profile() {
 
   useEffect(() => {
     if (user && user.id) {
-      axios.get("http://127.0.0.1:5000/api/images/profileImage", { params: { profile_image_id: user.id }})
+      axios.get(`${API_URL}/api/images/profileImage`, { params: { profile_image_id: user.id }})
         .then(response => {
           if (response.data && response.data.length > 0) {
             setProfileImage(response.data[0].image_url);
@@ -47,6 +47,25 @@ function Profile() {
         .catch(err => console.error("Error fetching Profile Image:", err));
     }
   }, [user]);
+
+  function handleExport() {
+    axios
+      .get(`${API_URL}/api/export`, { responseType: 'blob' })
+      .then(response => {
+        const blob = new Blob([response.data], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'sold_listings.csv';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        window.URL.revokeObjectURL(url);
+      })
+      .catch(error => {
+        console.error("Error exporting CSV:", error);
+      });
+  }
 
   return (
     <div className="profile-container">
@@ -64,6 +83,7 @@ function Profile() {
         <h2>Your Listings</h2>
         <div className='listing-buttons'>
             <button className='create-listing' onClick={() => navigate("/createListing")}>+ New Listing</button>
+            {user.is_admin ? <button className='export-listings' onClick={handleExport}>Export CSV</button> : <></>}
             <button className='liked-listings' onClick={() => navigate("/liked")}>Liked</button>
             <button className='bagged-listings' onClick={() => navigate("/bag")}>Bag</button>
             <button className='sold-listings' onClick={() => navigate("/sold")}>Sold</button>
